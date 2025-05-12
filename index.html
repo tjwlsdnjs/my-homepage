@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>서진원의 웹페이지</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(245, 247, 250, 0.7) 0%, rgba(228, 232, 235, 0.7) 100%),
+                        url('background.png') center/cover no-repeat fixed;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 90%;
+            padding: 40px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.95) 100%),
+                        url('mark.png') center/cover no-repeat;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            margin: 50px auto;
+            backdrop-filter: blur(5px);
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: -1px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            border-radius: 4px;
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 1.5rem 0;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            border: 5px solid white;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05);
+        }
+
+        .introduction {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #34495e;
+            margin: 1.5rem 0;
+            padding: 0 1.5rem;
+        }
+
+        .email {
+            color: #7f8c8d;
+            margin: 1.5rem 0;
+            font-size: 1.1rem;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        #portfolio, #career {
+            display: none;
+            margin: 50px auto;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+            max-width: 1000px;
+            width: 90%;
+            height: 0;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+
+        #portfolio.show, #career.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            height: auto;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        #portfolio.hide, #career.hide {
+            display: block;
+            opacity: 0;
+            transform: translateY(20px);
+            height: 0;
+            padding: 0;
+            margin: 0 auto;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        #portfolio h2, #career h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 15px;
+            font-size: 2.2rem;
+            text-align: center;
+        }
+
+        #portfolio h2::after, #career h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            border-radius: 4px;
+        }
+
+        .project-item {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #e9ecef;
+        }
+
+        .project-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #3498db;
+        }
+
+        .project-details {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease-out;
+        }
+
+        .project-details.show {
+            display: block;
+            height: auto;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        .project-details.hide {
+            display: block;
+            height: 0;
+            margin-top: 0;
+            padding: 0;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+
+        .project-details h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .project-details p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .project-details img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin: 15px 0;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .career-item {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+
+        .career-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .career-item p {
+            color: #666;
+            margin: 10px 0;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 1.1rem;
+        }
+
+        .career-item p:last-child {
+            border-bottom: none;
+        }
+
+        .button-container {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .scroll-button {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+            background: linear-gradient(45deg, #2980b9, #3498db);
+        }
+
+        .scroll-button:active {
+            transform: translateY(1px);
+        }
+
+        .scroll-button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .scroll-button:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>서진원의 웹페이지</h1>
+        <img src="profile.jpg" alt="프로필 사진" class="profile-image">
+        <div class="introduction">
+            안녕하세요! 저는 서진원입니다.<br>
+            현재 경상국립대학교 생물교육과 1학년 재학중입니다.<br>
+            AI를 활용한 학습법 연구와 생물학 교육 프로젝트를 진행중입니다.
+        </div>
+        <div class="email">
+            이메일: aqpa7042@gnu.ac.kr
+        </div>
+        <div class="button-container">
+            <button onclick="togglePortfolio()" class="scroll-button">연구과제</button>
+            <button onclick="toggleCareer()" class="scroll-button">학력 보기</button>
+        </div>
+    </div>
+
+    <!-- 포트폴리오 영역 -->
+    <div id="portfolio">
+        <h2>🔬 연구과제</h2>
+        <div class="project-item" onclick="toggleProjectDetails('project1')">
+            <h3>과학 실험 보고서 디자인 프로젝트</h3>
+            <div id="project1" class="project-details">
+                <h3>프로젝트 개요</h3>
+                <p>고등학교 과학 실험 보고서를 디자인하고 개선하는 프로젝트를 진행했습니다.</p>
+                <h3>주요 성과</h3>
+                <p>- 실험 보고서 템플릿 디자인</p>
+                <p>- 데이터 시각화 개선</p>
+                <p>- 실험 결과 분석 방법 개선</p>
+                <h3>결과물</h3>
+                <p>개선된 실험 보고서 템플릿과 가이드라인을 제작하여 학교 내 배포</p>
+            </div>
+        </div>
+        <div class="project-item" onclick="toggleProjectDetails('project2')">
+            <h3>캠벨 생명과학 요약 웹사이트 제작</h3>
+            <div id="project2" class="project-details">
+                <h3>프로젝트 개요</h3>
+                <p>캠벨 생명과학 교재의 핵심 내용을 요약하고 정리한 웹사이트를 제작했습니다.</p>
+                <h3>주요 성과</h3>
+                <p>- 핵심 개념 정리</p>
+                <p>- 시각적 자료 제작</p>
+                <p>- 학습 가이드 제공</p>
+                <h3>결과물</h3>
+                <p>생명과학 학습을 위한 인터랙티브 웹사이트 제작</p>
+            </div>
+        </div>
+        <div class="project-item" onclick="toggleProjectDetails('project3')">
+            <h3>Cursor AI를 활용한 자기소개 웹페이지</h3>
+            <div id="project3" class="project-details">
+                <h3>프로젝트 개요</h3>
+                <p>Cursor AI를 활용하여 개인 포트폴리오 웹페이지를 제작했습니다.</p>
+                <h3>주요 성과</h3>
+                <p>- 반응형 웹 디자인 구현</p>
+                <p>- 인터랙티브 요소 추가</p>
+                <p>- 모던한 UI/UX 디자인</p>
+                <h3>결과물</h3>
+                <p>현재 보고 계신 웹페이지입니다!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 학력 영역 -->
+    <div id="career">
+        <h2>📚 학력</h2>
+        <div class="career-item">
+            <p>2020.12.21 칠금중학교 졸업</p>
+            <p>2024.02.28 충주고등학교 졸업</p>
+            <p>2025.03.04 ~ 경상국립대학교 입학</p>
+        </div>
+    </div>
+
+    <script>
+        function togglePortfolio() {
+            var portfolio = document.getElementById("portfolio");
+            var career = document.getElementById("career");
+            
+            if (portfolio.classList.contains("show")) {
+                portfolio.classList.remove("show");
+                portfolio.classList.add("hide");
+                setTimeout(() => {
+                    portfolio.style.display = "none";
+                    portfolio.classList.remove("hide");
+                }, 800);
+            } else {
+                if (career.classList.contains("show")) {
+                    career.classList.remove("show");
+                    career.classList.add("hide");
+                    setTimeout(() => {
+                        career.style.display = "none";
+                        career.classList.remove("hide");
+                        portfolio.style.display = "block";
+                        portfolio.classList.add("show");
+                        setTimeout(() => {
+                            portfolio.scrollIntoView({ behavior: "smooth", block: "start" });
+                        }, 100);
+                    }, 800);
+                } else {
+                    portfolio.style.display = "block";
+                    portfolio.classList.add("show");
+                    setTimeout(() => {
+                        portfolio.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }, 100);
+                }
+            }
+        }
+
+        function toggleCareer() {
+            var career = document.getElementById("career");
+            var portfolio = document.getElementById("portfolio");
+            
+            if (career.classList.contains("show")) {
+                career.classList.remove("show");
+                career.classList.add("hide");
+                setTimeout(() => {
+                    career.style.display = "none";
+                    career.classList.remove("hide");
+                }, 800);
+            } else {
+                if (portfolio.classList.contains("show")) {
+                    portfolio.classList.remove("show");
+                    portfolio.classList.add("hide");
+                    setTimeout(() => {
+                        portfolio.style.display = "none";
+                        portfolio.classList.remove("hide");
+                        career.style.display = "block";
+                        career.classList.add("show");
+                        setTimeout(() => {
+                            career.scrollIntoView({ behavior: "smooth", block: "start" });
+                        }, 100);
+                    }, 800);
+                } else {
+                    career.style.display = "block";
+                    career.classList.add("show");
+                    setTimeout(() => {
+                        career.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }, 100);
+                }
+            }
+        }
+
+        function toggleProjectDetails(projectId) {
+            var projectDetails = document.getElementById(projectId);
+            if (projectDetails.classList.contains("show")) {
+                projectDetails.classList.remove("show");
+                projectDetails.classList.add("hide");
+                setTimeout(() => {
+                    projectDetails.style.display = "none";
+                    projectDetails.classList.remove("hide");
+                }, 800);
+            } else {
+                projectDetails.style.display = "block";
+                projectDetails.classList.add("show");
+            }
+        }
+    </script>
+</body>
+</html>
+
