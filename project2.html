@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>생물학 문제 시스템</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .project-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .project-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .project-title {
+            font-size: 2.5rem;
+            color: #265df2;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .project-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem;
+        }
+
+        .project-button {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 1.5rem;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .project-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            border-color: #265df2;
+            color: #265df2;
+        }
+
+        .project-button:active {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .project-content {
+                padding: 1rem;
+            }
+
+            .project-title {
+                font-size: 2rem;
+            }
+
+            .button-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="project-content">
+            <div class="project-header">
+                <h1 class="project-title">🧬 캠벨 기반 생물학 문제 플랫폼</h1>
+                <p class="project-subtitle">2025년 캠벨 생명과학 12판 기반</p>
+            </div>
+
+            <div class="button-grid">
+                <button class="project-button" onclick="location.href='bio_quiz.html'">📘 일반생물학</button>
+                <button class="project-button" onclick="location.href='major_select.html'">📚 세부전공</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
